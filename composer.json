@@ -1,0 +1,25 @@
+{
+    "require": {
+        "esd/esd-core": "~0.34",
+        "esd/redis-plugin": "~0.19",
+        "ext-bcmath" : "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "ESD\\Plugins\\": "src/"
+        }
+    },
+    "name": "anyhink/hashed-wheel-timer",
+    "description": "the HashedWheelTimer delay task",
+    "type": "project",
+    "keywords": [
+        "hashedWheelTimer"
+    ],
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "anythink",
+            "email": "xi@anythink.com.cn"
+        }
+    ]
+}
