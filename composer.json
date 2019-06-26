@@ -9,7 +9,7 @@
             "ESD\\Plugins\\": "src/"
         }
     },
-    "name": "anyhink/hashed-wheel-timer-plugin",
+    "name": "esd/hashed-wheel-timer-plugin",
     "description": "the HashedWheelTimer delay task",
     "type": "project",
     "keywords": [
