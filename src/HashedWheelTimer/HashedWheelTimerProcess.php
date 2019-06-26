@@ -58,7 +58,7 @@ class HashedWheelTimerProcess  extends Process {
 
             goWithContext(function () use($wheel, $point, $pool){
                 while ($row = $this->storage->popWheel($wheel['name'],$point)){
-                    print_r($row);
+                    //print_r($row);
                     $this->debug('popWheel',$row);
                     if($row['wheel'] > 0){
                         $row['wheel']--;
