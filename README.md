@@ -10,15 +10,20 @@ HashedWheelTimer是采用一种定时轮的方式来管理和维护大量的Time
 ~~~
 hashedWheelTimer:
   wheel:
-    - {name: aaa, tick_duration: 1, ticks_per_wheel: 60, max_pending_timeouts: 100}
+    - {name: aaa, tick_duration: 1, ticks_per_wheel: 60, max_pending_timeouts: 100, db: wheel}
 ~~~
 name  池子名称，投递任务的时候需要
+
 tick_duration，时间间隔，1秒
+
 ticks_per_wheel，时间槽数量，60个，代表一分钟一个轮次
-max_pending_timeouts，并发限制，默认100，如果耗时任务可能不会精准。
-db，使用的redis配置，强烈建议不要使用default，会占用http服务的连接数，应该复制一份配置专用
+
+max_pending_timeouts，每一个槽允许的最大协程数，默认100，如果耗时任务可能不会出现延迟。不适合特别精准的延时场景。
+
+db，使用的 redis 配置，强烈建议不要使用default，会占用http服务的连接数，应该复制一份配置专用
 
 # 使用方法
+
 ## 投递任务
 ~~~
   //环形池名称，执行任务的类，投递参数，延迟执行时间，秒
@@ -26,6 +31,7 @@ db，使用的redis配置，强烈建议不要使用default，会占用http服�
 ~~~
 
 ## 投递类
+投递的类需要继承 HashedWheelTimerRunnable 
 ~~~
 <?php
 namespace app\Controller;
