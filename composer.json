@@ -1,6 +1,6 @@
 {
     "require": {
-        "esd/esd-core": "~0.34",
+        "esd/esd-coroutine": "~0.8",
         "esd/redis-plugin": "~0.19",
         "ext-bcmath" : "*"
     },

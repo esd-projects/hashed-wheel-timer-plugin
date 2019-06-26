@@ -5,6 +5,7 @@ namespace  ESD\Plugins\HashedWheelTimer;
 use ESD\Core\Message\Message;
 use ESD\Core\Plugins\Logger\GetLogger;
 use ESD\Core\Server\Process\Process;
+use ESD\Coroutine\CoPoolFactory;
 use ESD\Plugins\Redis\GetRedis;
 
 class HashedWheelTimerProcess  extends Process {
@@ -45,12 +46,17 @@ class HashedWheelTimerProcess  extends Process {
         $wheel = $this->wheel;
         $this->info('onProcessStart');
 
-        addTimerTick($wheel['tickDuration'] * 1000,function() use($wheel){
+        $max_pool = $this->config->getMaxPendingTimeouts();
+
+        $pool = CoPoolFactory::createCoPool('hashedWheel_co-' . $this->getProcessId(), 2, $max_pool, 5);
+        $pool->preStartAllCoreThreads();
+
+        addTimerTick($wheel['tickDuration'] * 1000,function() use($wheel, $pool){
 
             $point = $this->storage->getPoint($wheel['name']);
             //$this->info('tick '. $point);
 
-            goWithContext(function () use($wheel, $point){
+            goWithContext(function () use($wheel, $point, $pool){
                 while ($row = $this->storage->popWheel($wheel['name'],$point)){
                     print_r($row);
                     $this->debug('popWheel',$row);
@@ -58,7 +64,7 @@ class HashedWheelTimerProcess  extends Process {
                         $row['wheel']--;
                         $this->storage->pushWheelTmp($wheel['name'], $point, $row);
                     }else{
-                        goWithContext(function () use ($row, $point){
+                        $pool->execute(function() use ($row, $point){
                             $this->run($row, $point);
                         });
                     }

@@ -86,4 +86,12 @@ class hashedWheelTimerConfig extends BaseConfig{
         $this->taskProcessCount = $num;
     }
 
+    public function getMaxPendingTimeouts(): int {
+        return $this->maxPendingTimeouts;
+    }
+
+    public function setMaxPendingTimeouts(int $num): void {
+        $this->maxPendingTimeouts = $num;
+    }
+
 }
