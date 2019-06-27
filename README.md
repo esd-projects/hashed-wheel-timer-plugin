@@ -9,8 +9,10 @@ HashedWheelTimer是采用一种定时轮的方式来管理和维护大量的Time
 配置一个环形结构池
 ~~~
 hashedWheelTimer:
+  db: default
+  max_pending_timeouts: 100
   wheel:
-    - {name: aaa, tick_duration: 1, ticks_per_wheel: 60, max_pending_timeouts: 100, db: wheel}
+    - {name: aaa, tick_duration: 1, ticks_per_wheel: 60 }
 ~~~
 name  池子名称，投递任务的时候需要
 
