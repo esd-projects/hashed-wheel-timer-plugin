@@ -83,6 +83,14 @@ class RedisHashedWheelTimerStorage implements HashedWheelTimerStorage {
         return serverUnSerialize($this->redis($this->config->getDb())->rPop(self::prefix.$key.$mask.'_tmp'));
     }
 
+    function llenWheel($key,$mask){
+        return $this->redis()->lLen(self::prefix.$key.$mask);
+    }
+
+    function info(){
+        return $this->redis()->info();
+    }
+
     function remTWheelTask($key, $mask, $val){
         return $this->redis($this->config->getDb())->lRem(self::prefix.$key.$mask, serverSerialize($val), 0);
     }
